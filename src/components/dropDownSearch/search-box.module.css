@@ -1,0 +1,14 @@
+.searchBox{
+    height: 300px;
+    width: 100px;
+    border: 1px solid gray;
+    border-top: none;
+    display: block;
+    position: absolute;
+    left: 0;
+    overflow: auto;
+    /*top: 21px;*/
+}
+.searchBoxHide{
+    display: none;
+}
