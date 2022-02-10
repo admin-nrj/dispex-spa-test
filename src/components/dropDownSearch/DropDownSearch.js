@@ -6,11 +6,14 @@ function DropDownSearch(props) {
     const [showSearchBox, setShowSearchBox] = useState(false);
     const [mouseOverSearchBox, setMouseOverSearchBox] = useState(false);
     const [list, setList] = useState([]);
-    const [searchValue, setSearchValue] =useState('');
+    const [value, setValue] = useState((props.value?.name) ? props.value?.name : '');
     
     useEffect(()=>{
         setList(props.list);
-    }, [props.list])
+        setValue((props.value?.name) ? props.value?.name : '');
+    }, [props.list, props.value?.name]);
+
+
     const searchInput = useRef();
 
     const handlerInputOnFocus = () =>{
@@ -22,12 +25,11 @@ function DropDownSearch(props) {
     }
 
     const onItemClickHandler=(selectedObj) => {
-        setSearchValue(selectedObj.name)
         props.onSelect(selectedObj);
         setShowSearchBox(false);
     }
     const handleOnSearchChange=(e)=>{
-        setSearchValue(e.target.value)
+        setValue(e.target.value)
         // тут возможны варианты например поск сначала строки
         setList(props.list.filter(l=>l.name.toLowerCase().includes(e.target.value.toLowerCase())));
     }
@@ -38,14 +40,17 @@ function DropDownSearch(props) {
         <div className={s.dropDownContainer}>
             <div className={s.dropDownSearch}>
                 <input type="text" ref={searchInput}
-                       value = {searchValue}
+                       value = {value}
                        onChange={handleOnSearchChange}
                        placeholder={props.placeholder}
                        style={{width:props.width}}
                        onFocus={handlerInputOnFocus}
                        onBlur={handleInputOnBlur}
                 />
-                <SearchBox show={showSearchBox} input={searchInput.current} onItemClickHandler={onItemClickHandler} list={list}
+                <SearchBox show={showSearchBox}
+                           input={searchInput.current}
+                           onItemClickHandler={onItemClickHandler}
+                           list={list}
                            onMouseEnter = {()=>setMouseOverSearchBox(true)}
                            onMouseLeave = {()=>setMouseOverSearchBox(false)}
                 />

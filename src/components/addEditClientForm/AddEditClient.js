@@ -58,4 +58,4 @@ function AddEditClient({client, setAddEditActive, isAddEditActive}) {
     );
 }
 
-export default AddEditClient;
+export default React.memo(AddEditClient);

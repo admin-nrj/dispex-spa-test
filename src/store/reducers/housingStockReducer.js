@@ -5,19 +5,19 @@ const STREETS_RECEIVED='STREETS_RECEIVED';
  const UNBIND_CLIENT = 'UNBIND_CLIENT';
  const ADD_CLIENT = 'ADD_CLIENT';
  const EDIT_CLIENT = 'EDIT_CLIENT';
-
- const SET_STREET_ID='SET_STREET_ID';
- const SET_HOUSE_ID='SET_HOUSE_ID';
- const SET_FLAT_ID='SET_FLAT_ID';
+const SET_DEFAULT='SET_DEFAULT';
+ const SET_STREET='SET_STREET';
+ const SET_HOUSE='SET_HOUSE';
+ const SET_FLAT='SET_FLAT';
 
 const defState={
     streets:[],
     houses:[],
     house_flats:[],
     clients:[],
-    selectedStreetId:null,
-    selectedHouseId:null,
-    selectedFlatId:null
+    selectedStreet:null,
+    selectedHouse: null,
+    selectedFlat:null
 }
 
 export const housingStockReducer = (state = defState, action)=>{
@@ -37,12 +37,14 @@ export const housingStockReducer = (state = defState, action)=>{
             return {...state, clients: [action.payload, ...state.clients]}
         case EDIT_CLIENT:
             return {...state, clients: state.clients.map(c=>(c.id===action.payload.id) ? {...action.payload}: c)}
-        case SET_STREET_ID:
-            return {...state, selectedStreetId: action.payload}
-        case SET_HOUSE_ID:
-            return {...state, selectedHouseId: action.payload}
-        case SET_FLAT_ID:
-            return {...state, selectedFlatId: action.payload}
+        case SET_STREET:
+            return {...state, selectedStreet: {...action.payload}, selectedHouse: null, selectedFlat: null, clients: [] }
+        case SET_HOUSE:
+            return {...state, selectedHouse: {...action.payload}, selectedFlat: null, clients: []}
+        case SET_FLAT:
+            return {...state, selectedFlat: {...action.payload}}
+        case SET_DEFAULT:
+            return {...defState}
         default: return state;
     }
 }
@@ -54,7 +56,7 @@ export const clientsReceivedAC = (payload) =>({type:CLIENTS_RECEIVED, payload})
 export const clientUnBindAC = (payload) =>({type:UNBIND_CLIENT, payload})
 export const addClientAC = (payload) =>({type:ADD_CLIENT, payload})
 export const editClientAC = (payload) =>({type:EDIT_CLIENT, payload})
-
-export const setStreetIdAC = (payload) =>({type:SET_STREET_ID, payload})
-export const setHouseIdAC = (payload) =>({type:SET_HOUSE_ID, payload})
-export const setFlatAC = (payload) =>({type:SET_FLAT_ID, payload})
+export const setDefaultAC = () =>({type: SET_DEFAULT});
+export const setStreetAC = (payload) =>({type:SET_STREET, payload})
+export const setHouseAC = (payload) =>({type:SET_HOUSE, payload})
+export const setFlatAC = (payload) =>({type:SET_FLAT, payload})
