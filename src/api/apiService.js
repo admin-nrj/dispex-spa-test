@@ -12,5 +12,14 @@ export const api = {
     },
     getClients(id) {
         return $api.get(`/HousingStock/clients`, {params:{addressId:id}});
+    },
+    unBindClient(id) {
+        return $api.delete(`/HousingStock/bind_client/${id}`)
+    },
+    addClient(clientData) {
+        return $api.post('/HousingStock/client',clientData)
+    },
+    editClient(clientData) {
+        return $api.put('/HousingStock/bind_client',clientData)
     }
 }
