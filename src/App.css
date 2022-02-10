@@ -1,7 +1,4 @@
 .App {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
+    max-width: 75%;
+    margin: 15px auto;
 }

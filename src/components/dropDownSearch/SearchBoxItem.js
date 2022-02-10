@@ -5,8 +5,8 @@ function SearchBoxItem(props) {
     // id={l.id} label={l.label} l={l} onClickHandler
     return (
         <div className={s.listItem}
-             onClick={()=>props.onClickHandler(props.id)}>
-            {props.label}
+             onClick={()=>props.onClickHandler(props.l)}>
+            {props.l?.name}
         </div>
     );
 }

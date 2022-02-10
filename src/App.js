@@ -1,24 +1,18 @@
 import './App.css';
-import DropDownSearch from "./components/dropDownSearch/DropDownSearch";
-
-const list=[
-  {id:1, label:"1"},
-  {id:2, label:"2"},
-  {id:3, label:"3"},
-  {id:4, label:"4"},
-  {id:5, label:"5"},
-  {id:6, label:"6"},
-]
+import AddressSelector from "./components/AddressSelector/AddressSelector";
+import {Provider} from "react-redux";
+import {store} from "./store/store";
+import ClientsList from "./components/clientsList/clientsList";
 
 function App() {
-  return (
-    <div className="App">
-      start
-        <DropDownSearch placeholder={'Улица'} width={200} list={list}/>
-        <DropDownSearch placeholder={'Дом'} width={100}/>
-        <DropDownSearch placeholder={'Кв'} width={100}/>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Provider store={store}>
+                <AddressSelector/>
+                <ClientsList/>
+            </Provider>
+        </div>
+    );
 }
 
 export default App;

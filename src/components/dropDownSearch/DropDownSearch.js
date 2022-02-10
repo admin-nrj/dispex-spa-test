@@ -1,13 +1,16 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import SearchBox from "./SearchBox";
 import s from './drop-down-search.module.css';
 
 function DropDownSearch(props) {
     const [showSearchBox, setShowSearchBox] = useState(false);
     const [mouseOverSearchBox, setMouseOverSearchBox] = useState(false);
-    const [list, setList] = useState(props.list);
+    const [list, setList] = useState([]);
     const [searchValue, setSearchValue] =useState('');
-
+    
+    useEffect(()=>{
+        setList(props.list);
+    }, [props.list])
     const searchInput = useRef();
 
     const handlerInputOnFocus = () =>{
@@ -18,14 +21,15 @@ function DropDownSearch(props) {
             setShowSearchBox(false);
     }
 
-    const onItemClickHandler=(id) => {
-        console.log(id)
+    const onItemClickHandler=(selectedObj) => {
+        setSearchValue(selectedObj.name)
+        props.onSelect(selectedObj);
         setShowSearchBox(false);
     }
     const handleOnSearchChange=(e)=>{
         setSearchValue(e.target.value)
         // тут возможны варианты например поск сначала строки
-        setList(props.list.filter(l=>l.label.toLowerCase().includes(e.target.value.toLowerCase())));
+        setList(props.list.filter(l=>l.name.toLowerCase().includes(e.target.value.toLowerCase())));
     }
 
 
