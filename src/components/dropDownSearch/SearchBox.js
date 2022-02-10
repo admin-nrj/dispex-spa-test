@@ -13,8 +13,10 @@ const getStyle = ()=>{
 
     return (
         <div className={props.show ? `${s.searchBox}` : `${s.searchBox} ${s.searchBoxHide}`}
+             onMouseEnter={props.onMouseEnter}
+             onMouseLeave={props.onMouseLeave}
              style={getStyle()}>
-            {props.list.map(l => <SearchBoxItem key={l.id} id={l.id} label={l.label} l={l} onClickHandler={props.onItemClickHandler}/>)}
+            {props.list?.map(l => <SearchBoxItem key={l.id} id={l.id} label={l.label} l={l} onClickHandler={props.onItemClickHandler}/>)}
         </div>
     );
 }
