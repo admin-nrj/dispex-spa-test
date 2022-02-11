@@ -17,7 +17,8 @@ const defState={
     clients:[],
     selectedStreet:null,
     selectedHouse: null,
-    selectedFlat:null
+    selectedFlat:null,
+    loading:false,
 }
 
 export const housingStockReducer = (state = defState, action)=>{

@@ -6,13 +6,17 @@ import {
     housesReceivedAC,
     streetsReceivedAC
 } from "../reducers/housingStockReducer";
+import {errorHelper} from "../../helpers/errorHelper";
 
 export const asyncActions={
     getStreets: () =>{
         return function(dispatch){
             api.getStreets()
                 .then(streets=>dispatch(streetsReceivedAC(streets.data)))
-                .catch(e=>console.log(e.message));
+                .catch(e=> {
+                    dispatch(errorHelper.setError(e.message));
+                    console.log(e.message)
+                });
         }
     },
     getHouses(id) {
@@ -21,7 +25,10 @@ export const asyncActions={
                 .then(response=>{
                     dispatch(housesReceivedAC(response.data))
                 })
-                .catch(e=>console.log(e.message))
+                .catch(e=> {
+                    dispatch(errorHelper.setError(e.message))
+                    console.log(e.message)
+                })
         }
     },
     getHouses_flats(id) {
@@ -30,7 +37,10 @@ export const asyncActions={
                 .then(response=>{
                     dispatch(house_flatsReceivedAC(response.data))
                 })
-                .catch(e=>console.log(e.message))
+                .catch(e=> {
+                    dispatch(errorHelper.setError(e.message))
+                    console.log(e.message)
+                })
         }
     },
     getClients(id) {
@@ -39,7 +49,10 @@ export const asyncActions={
                 .then(response=>{
                     dispatch(clientsReceivedAC(response.data))
                 })
-                .catch(e=>console.log(e.message))
+                .catch(e=> {
+                    dispatch(errorHelper.setError(e.message))
+                    console.log(e.message)
+                })
         }
     },
     unBindClient(id) {
@@ -51,19 +64,24 @@ export const asyncActions={
                     // сделаем такую заглушку возможно деструктивные методы специально заблочены
                     dispatch(clientUnBindAC(respId))
                 })
-                .catch(e=>console.log(e.message))
+                .catch(e=> {
+                    dispatch(errorHelper.setError(e.message))
+                    console.log(e.message)
+                })
         }
     },
     editClient(clientData) {
         return function (dispatch, getState){
             const state = getState();
             if (!clientData.phone){
+                dispatch(errorHelper.setError('error: Поле телефон обязательное'))
                 console.log('error: Поле телефон обязательное')
                 return;
             }
             if (state.housingStock.selectedFlatId){
                 clientData.addressId=state.housingStock.selectedFlatId
             }else{
+                dispatch(errorHelper.setError('error: Не выбран адрес'))
                 console.log('error: Не выбран адрес')
                 return;
             }
@@ -73,22 +91,28 @@ export const asyncActions={
                     if (response.status===200){
                         dispatch(editClientAC(clientData))
                     }else{
+                        dispatch(errorHelper.setError(`error: ${response.data.message}`))
                         console.log(`error: ${response.data.message}`);
                     }
                 })
-                .catch(e=>console.log(e.message))
+                .catch(e=> {
+                    dispatch(errorHelper.setError(e.message))
+                    console.log(e.message)
+                })
         }
     },
     addClient(clientData) {
         return function (dispatch, getState){
             const state = getState();
             if (!clientData.phone){
+                dispatch(errorHelper.setError('error: Поле телефон обязательное'))
                 console.log('error: Поле телефон обязательное')
                 return;
             }
             if (state.housingStock.selectedFlatId){
                 clientData.bindId=state.housingStock.selectedFlatId
             }else{
+                dispatch(errorHelper.setError('error: Не выбран адрес'))
                 console.log('error: Не выбран адрес')
                 return;
             }
@@ -98,10 +122,14 @@ export const asyncActions={
                         clientData.id=response.data.id
                         dispatch(addClientAC(clientData))
                     }else{
+                        dispatch(errorHelper.setError(`error: ${response.data.message}`))
                         console.log(`error: ${response.data.message}`);
                     }
                 })
-                .catch(e=>console.log(e.message))
+                .catch(e=> {
+                    dispatch(errorHelper.setError(e.message))
+                    console.log(e.message)
+                })
         }
     },
 }

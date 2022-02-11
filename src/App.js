@@ -5,6 +5,7 @@ import {store} from "./store/store";
 import ClientsList from "./components/clientsList/clientsList";
 
 function App() {
+
     return (
         <div className="App">
             <Provider store={store}>
