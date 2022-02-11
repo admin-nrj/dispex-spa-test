@@ -12,7 +12,7 @@ function ClientsList() {
     const clientRef = useRef({});
     const dispatch = useDispatch();
     const clients = useSelector(state => state.housingStock.clients);
-    const selectedFlat = useSelector(state=>state.housingStock.selectedFlat);
+    const selectedFlat = useSelector(state => state.housingStock.selectedFlat);
 
     const onDeleteHandler = (client) => {
         setDeleteActive(true);
@@ -35,10 +35,12 @@ function ClientsList() {
     }
 
 
-    if (clients?.length>0){
+    if (clients?.length > 0) {
         return (
             <div>
-                <button onClick={onAddHandler}>{'Добавить жильца'}</button>
+                <div className={s.clientsListAddButton}>
+                    <button onClick={onAddHandler}>{'Добавить жильца'}</button>
+                </div>
                 <div className={s.clientsList}>
                     {clients?.map(c => <ClientsListItem key={c.id} client={c}
                                                         onEditHandler={onEditHandler}
@@ -46,7 +48,7 @@ function ClientsList() {
                 </div>
 
                 <Modal setIsShow={setDeleteActive} show={isDeleteActive} title={'Клиент будет безвозвратно удалён'}>
-                    <div className={s.butons}>
+                    <div className={s.buttons}>
                         <div onClick={deleteClient}>Удалить</div>
                         <div onClick={() => setDeleteActive(false)}>Отменить</div>
                     </div>
@@ -58,7 +60,7 @@ function ClientsList() {
             </div>
 
         );
-    }else{
+    } else {
         return (
             <div className={s.clientsList}> {selectedFlat ? 'По этому адресу никого нет' : 'Выберите адрес'}</div>
         )

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Modal from "../modal/modal";
 import s from "../clientsList/clientsList.module.css";
+import ss from './addEditClient.module.css';
 import {useDispatch} from "react-redux";
 import {asyncActions} from "../../store/actions/asyncActions";
 
@@ -9,6 +10,7 @@ function AddEditClient({client, setAddEditActive, isAddEditActive}) {
     const [email, setEmail] = useState('');
     const [fio, setFIO] = useState('');
     const dispatch = useDispatch();
+    const [hasPhoneError, setHasPhoneError] = useState(false);
 
     function setDefaultData() {
         setPhone('')
@@ -16,44 +18,65 @@ function AddEditClient({client, setAddEditActive, isAddEditActive}) {
         setFIO('')
     }
 
-    useEffect(()=>{
-        if (client.phone){
+    useEffect(() => {
+        if (client.phone) {
             setPhone(client.phone)
             setEmail(client.email)
             setFIO(client.name)
-        }else{
+        } else {
             setDefaultData();
         }
-    },[client])
+    }, [client])
 
 
     const saveClientData = () => {
-        dispatch(asyncActions.editClient({id: client.id, phone,email,name:fio}));
+        dispatch(asyncActions.editClient({id: client.id, phone, email, name: fio}));
         setAddEditActive(false);
         setDefaultData();
     }
     const addClientData = () => {
-        dispatch(asyncActions.addClient({phone,email,name:fio}))
+        dispatch(asyncActions.addClient({phone, email, name: fio}))
         setAddEditActive(false);
         setDefaultData();
     }
 
+    const onSaveHandler = () => {
+
+        if (!phone || phone === '') {
+            setHasPhoneError(true);
+            return
+        }
+
+
+        client.phone ? saveClientData() : addClientData()
+    }
     return (
         <Modal setIsShow={setAddEditActive} show={isAddEditActive}
                title={client.phone ? 'Редактирование данных' : 'Создание и привязка нового жильца'}>
-            <div>
-                <input type={"text"} placeholder={'Телефон'} value={phone} onChange={(e) => setPhone(e.target.value)}/>
+            <div className={ss.addEditForm}>
+                <div className={ss.field}>
+                    <span className={!hasPhoneError ? `${ss.hide}` : ''}>!</span>
+                    <input type={"text"}
+                           placeholder={'* Телефон'}
+                           value={phone}
+                           onChange={(e) => {
+                               setHasPhoneError(false);
+                               setPhone(e.target.value)
+                           }}/>
+                </div>
+                <div className={ss.field}>
+                    <input type={"text"} placeholder={'Email'} value={email}
+                           onChange={(e) => setEmail(e.target.value)}/>
+                </div>
+                <div className={ss.field}>
+                    <input type={"text"} placeholder={'ФИО'} value={fio} onChange={(e) => setFIO(e.target.value)}/>
+                </div>
             </div>
-            <div>
-                <input type={"text"} placeholder={'Email'} value={email} onChange={(e) => setEmail(e.target.value)}/>
-            </div>
-            <div>
-                <input type={"text"} placeholder={'ФИО'} value={fio} onChange={(e) => setFIO(e.target.value)}/>
-            </div>
-            <div className={s.butons}>
-                <div onClick={client.phone ? saveClientData : addClientData}>Сохранить</div>
+            <div className={s.buttons}>
+                <div onClick={onSaveHandler}>Сохранить</div>
                 <div onClick={() => setAddEditActive(false)}>Отменить</div>
             </div>
+
         </Modal>
     );
 }

@@ -1,0 +1,30 @@
+.addEditForm{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 20px;
+    gap:5px;
+    margin-bottom: 20px;
+}
+
+.addEditForm input{
+    padding: 5px 10px;
+    width: 100%
+}
+
+.field{
+    position: relative;
+    display: inline-block;
+    width: 90%;
+}
+.field span{
+    position: absolute;
+    top:2px;
+    left: 5px;
+    color: red;
+    font-weight: bold;
+}
+
+.hide{
+    display: none;
+}
