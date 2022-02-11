@@ -7,21 +7,21 @@ function DropDownSearch(props) {
     const [mouseOverSearchBox, setMouseOverSearchBox] = useState(false);
     const [list, setList] = useState([]);
     const [value, setValue] = useState((props.value?.name) ? props.value?.name : '');
+    const searchInput = useRef();
 
     useEffect(()=>{
         setList(props.list);
         setValue((props.value?.name) ? props.value?.name : '');
     }, [props.list, props.value?.name]);
 
-
-    const searchInput = useRef();
-
     const handlerInputOnFocus = () =>{
         setShowSearchBox(true)
     }
     const handleInputOnBlur = () => {
-        if (!mouseOverSearchBox)
+        if (!mouseOverSearchBox){
             setShowSearchBox(false);
+            setValue('');
+        }
     }
 
     const onItemClickHandler=(selectedObj) => {
@@ -35,6 +35,8 @@ function DropDownSearch(props) {
     }
 
     const toggleSearchBox = () => {
+        if (!showSearchBox)
+            searchInput.current.focus();
         setShowSearchBox(!showSearchBox);
     }
 
@@ -43,7 +45,9 @@ function DropDownSearch(props) {
         <div className={s.dropDownContainer}>
             <div className={s.dropDownSearch}>
 
-                    <input className={s.dropDownSearchInput} type="text" ref={searchInput}
+                    <input className={s.dropDownSearchInput}
+                           type="text"
+                           ref={searchInput}
                            value={value}
                            onChange={handleOnSearchChange}
                            placeholder={props.placeholder}

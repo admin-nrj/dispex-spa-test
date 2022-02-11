@@ -19,7 +19,6 @@ export const api = {
     addClient(clientData) {
         return $api.post('/HousingStock/client',clientData)
     },
-
     editClient(clientData) {
         return $api.put('/HousingStock/bind_client',clientData)
     }
