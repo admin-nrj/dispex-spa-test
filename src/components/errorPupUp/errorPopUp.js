@@ -11,4 +11,4 @@ function ErrorPopUp(props) {
     );
 }
 
-export default ErrorPopUp;
+export default React.memo(ErrorPopUp);

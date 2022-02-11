@@ -59,7 +59,8 @@ export const asyncActions={
         return function (dispatch){
             api.unBindClient(id)
                 .then(response=>{
-                    const respId= response.data?.id ? response.data?.id : id;
+                    console.log(response)
+                    const respId = response.data?.id ? response.data?.id : id;
                     // почему-то от сервера приходит пустой ответ со статусом 200, но чтобы продемонстрировать удаление из списка
                     // сделаем такую заглушку возможно деструктивные методы специально заблочены
                     dispatch(clientUnBindAC(respId))
@@ -78,8 +79,8 @@ export const asyncActions={
                 console.log('error: Поле телефон обязательное')
                 return;
             }
-            if (state.housingStock.selectedFlatId){
-                clientData.addressId=state.housingStock.selectedFlatId
+            if (state.housingStock.selectedFlat?.id){
+                clientData.addressId=state.housingStock.selectedFlat.id
             }else{
                 dispatch(errorHelper.setError('error: Не выбран адрес'))
                 console.log('error: Не выбран адрес')
@@ -109,8 +110,8 @@ export const asyncActions={
                 console.log('error: Поле телефон обязательное')
                 return;
             }
-            if (state.housingStock.selectedFlatId){
-                clientData.bindId=state.housingStock.selectedFlatId
+            if (state.housingStock.selectedFlat?.id){
+                clientData.bindId=state.housingStock.selectedFlat.id
             }else{
                 dispatch(errorHelper.setError('error: Не выбран адрес'))
                 console.log('error: Не выбран адрес')
@@ -121,6 +122,8 @@ export const asyncActions={
                     if (response.data.result==='Ok'){
                         clientData.id=response.data.id
                         dispatch(addClientAC(clientData))
+                        // просто добавление не привязывает к квартире, может это фича...
+                        dispatch(asyncActions.editClient(clientData));
                     }else{
                         dispatch(errorHelper.setError(`error: ${response.data.message}`))
                         console.log(`error: ${response.data.message}`);
