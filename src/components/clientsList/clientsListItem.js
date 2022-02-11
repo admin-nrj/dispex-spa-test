@@ -18,4 +18,4 @@ function ClientsListItem({client, onDeleteHandler, onEditHandler}) {
     );
 }
 
-export default ClientsListItem;
+export default React.memo(ClientsListItem);

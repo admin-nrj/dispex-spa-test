@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import SearchBox from "./SearchBox";
 import s from './drop-down-search.module.css';
 
@@ -24,10 +24,11 @@ function DropDownSearch(props) {
         }
     }
 
-    const onItemClickHandler=(selectedObj) => {
+    const onItemClickHandler = useCallback((selectedObj) => {
         props.onSelect(selectedObj);
         setShowSearchBox(false);
-    }
+    },[props])
+
     const handleOnSearchChange=(e)=>{
         setValue(e.target.value)
         // тут возможны варианты например поск сначала строки
@@ -35,8 +36,9 @@ function DropDownSearch(props) {
     }
 
     const toggleSearchBox = () => {
-        if (!showSearchBox)
+        if (!showSearchBox){
             searchInput.current.focus();
+        }
         setShowSearchBox(!showSearchBox);
     }
 
@@ -69,4 +71,4 @@ function DropDownSearch(props) {
     );
 }
 
-export default DropDownSearch;
+export default React.memo(DropDownSearch);

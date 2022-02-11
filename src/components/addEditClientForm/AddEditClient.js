@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Modal from "../modal/modal";
 import s from "../clientsList/clientsList.module.css";
 import ss from './addEditClient.module.css';
@@ -29,27 +29,26 @@ function AddEditClient({client, setAddEditActive, isAddEditActive}) {
     }, [client])
 
 
-    const saveClientData = () => {
+    const saveClientData = useCallback(() => {
         dispatch(asyncActions.editClient({id: client.id, phone, email, name: fio}));
         setAddEditActive(false);
         setDefaultData();
-    }
-    const addClientData = () => {
+    },[client.id, dispatch, email, fio, phone, setAddEditActive])
+
+    const addClientData = useCallback(() => {
         dispatch(asyncActions.addClient({phone, email, name: fio}))
         setAddEditActive(false);
         setDefaultData();
-    }
+    },[dispatch, email, fio, phone, setAddEditActive])
 
-    const onSaveHandler = () => {
-
+    const onSaveHandler = useCallback(() => {
         if (!phone || phone === '') {
             setHasPhoneError(true);
             return
         }
-
-
         client.phone ? saveClientData() : addClientData()
-    }
+    },[addClientData, client.phone, phone, saveClientData])
+    
     return (
         <Modal setIsShow={setAddEditActive} show={isAddEditActive}
                title={client.phone ? 'Редактирование данных' : 'Создание и привязка нового жильца'}>

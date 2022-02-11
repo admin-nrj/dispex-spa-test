@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import s from './clientsList.module.css'
 import ClientsListItem from "./clientsListItem";
@@ -14,10 +14,10 @@ function ClientsList() {
     const clients = useSelector(state => state.housingStock.clients);
     const selectedFlat = useSelector(state => state.housingStock.selectedFlat);
 
-    const onDeleteHandler = (client) => {
+    const onDeleteHandler = useCallback((client) => {
         setDeleteActive(true);
         clientRef.current = client;
-    }
+    },[])
 
     const deleteClient = () => {
         setDeleteActive(false)
@@ -25,10 +25,10 @@ function ClientsList() {
             dispatch(asyncActions.unBindClient(clientRef.current.id))
     }
 
-    const onEditHandler = (client) => {
+    const onEditHandler = useCallback((client) => {
         clientRef.current = client;
         setAddEditActive(true);
-    }
+    },[])
     const onAddHandler = () => {
         clientRef.current = JSON.parse(JSON.stringify({}));
         setAddEditActive(true);

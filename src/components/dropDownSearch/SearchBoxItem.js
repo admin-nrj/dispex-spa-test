@@ -11,4 +11,4 @@ function SearchBoxItem(props) {
     );
 }
 
-export default SearchBoxItem;
+export default React.memo(SearchBoxItem);

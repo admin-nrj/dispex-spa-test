@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import DropDownSearch from "../dropDownSearch/DropDownSearch";
 import s from './addressSelector.module.css';
 import {useDispatch, useSelector} from "react-redux";
@@ -23,23 +23,25 @@ function AddressSelector() {
         dispatch(asyncActions.getStreets())
     }, [dispatch])
 
-    const onStreetSelect = (selObj) => {
+    const onStreetSelect = useCallback((selObj) => {
         dispatch(setStreetAC(selObj))
         dispatch(asyncActions.getHouses(selObj.id))
-    }
-    const onHouseSelect = (selObj) => {
+    },[dispatch])
+    
+    const onHouseSelect = useCallback((selObj) => {
         dispatch(setHouseAC(selObj))
         dispatch(asyncActions.getHouses_flats(selObj.id))
-    }
-    const onFlatSelect = (selObj) => {
+    },[dispatch])
+    
+    const onFlatSelect = useCallback((selObj) => {
         dispatch(setFlatAC(selObj))
         dispatch(asyncActions.getClients(selObj.id))
-    }
+    },[dispatch])
 
-    function clearFields() {
+    const clearFields=useCallback(() =>{
         dispatch(setDefaultAC())
         dispatch(asyncActions.getStreets())
-    }
+    },[dispatch])
 
 
     return (
@@ -57,4 +59,4 @@ function AddressSelector() {
     );
 }
 
-export default AddressSelector;
+export default React.memo(AddressSelector);
