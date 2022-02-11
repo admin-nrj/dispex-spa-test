@@ -5,6 +5,13 @@
     display: inline-block;
     position: relative;
 }
-.dropDownSearch input{
+.dropDownSearchInput{
 padding: 5px 10px;
+}
+.dropDownButton{
+    position: absolute;
+    top:0;
+    right:0;
+    padding: 5px 10px;
+    transform: translateX(95%);
 }

@@ -44,7 +44,7 @@ function AddressSelector() {
             <DropDownSearch placeholder={'Улица'} width={200} list={streets} value = {street} onSelect={onStreetSelect}/>
             <DropDownSearch placeholder={'Дом'} width={100} list={houses} value = {house } onSelect={onHouseSelect}/>
             <DropDownSearch placeholder={'Кв'} width={100} list={flats} value = {flat} onSelect={onFlatSelect}/>
-            <button onClick={clearFields} >Очистить</button>
+            <button className={s.clearButton} onClick={clearFields} >Очистить</button>
         </div>
     );
 }
